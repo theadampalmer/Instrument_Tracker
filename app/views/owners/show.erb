@@ -1,0 +1,7 @@
+<center>
+<h1>Your Instruments</h1>
+
+<%@owner.instruments.each do |instrument|%>
+<a href="/instruments/#{instrument.id}"><%=instrument.description%></a><br><br>
+<%end%>
+</center>

@@ -1,0 +1,12 @@
+<center>
+<h1>Your New Instrument</h1>
+
+<p><%= @instrument.description %></p>
+
+<a href="/instruments/<%=@instrument.id%>/edit">Edit Instrument</a>
+
+<form action="/instruments/<%=@instrument.id%>/delete" method="post">
+  <input type="hidden" id="hidden" name="_method" value="delete">
+  <input type="submit" value="Delete Instrument">
+</form>
+</center>
