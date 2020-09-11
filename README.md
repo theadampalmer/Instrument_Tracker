@@ -10,7 +10,7 @@ Ax-Keeper is a simple Sinatra-built web application for logging and tracking mus
 
 3.) Type 'rake db:migrate' to migrate 
 
-4.) Start up local server by running by typing 'shotgun'
+4.) Start up local server by typing 'shotgun'
 
 5.) Enjoy!
 ```

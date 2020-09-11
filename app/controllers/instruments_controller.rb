@@ -37,12 +37,13 @@ class InstrumentsController < ApplicationController
 
   patch '/instruments/:id/edit' do
     if logged_in?
-      @instrument = Instrument.find_by(params[:id])
-      if !params[:description] == ""
+      @instrument = Instrument.find_by_id(params[:id])
+      if !params[:description] == " "
         redirect to "/instruments/#{@instrument.id}/edit"
       else
         @instrument.description = params[:description]
         @instrument.save
+        redirect "/instruments/#{@instrument.id}"
       end
     else
       redirect '/login'
@@ -63,14 +64,14 @@ class InstrumentsController < ApplicationController
         end
       end
     else
-      redirect "/login"
+      redirect '/login'
     end
   end
 
   delete '/instruments/:id/delete' do
     if logged_in?
       @instrument = Instrument.find_by_id(params[:id])
-      if @instrument.user_id == current_owner.id
+      if @instrument.owner_id == current_owner.id
         @instrument.delete
         redirect to '/instruments'
       else

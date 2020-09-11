@@ -7,7 +7,7 @@ class OwnersController < ApplicationController
         redirect '/instruments'
       end
     end
-
+#check to make sure username isnt already in db
    post '/signup' do
      if params[:username] == "" || params[:email] == "" || params[:password] == ""
        redirect '/signup'
