@@ -2,9 +2,16 @@
 <p>Here are the instruments we're keeping track of:</p>
 
 <% @owner.instruments.each do |inst| %>
-    
     <a href="/instruments/<%=inst.id%>"><%=inst.description%></a>
 <%end%>
+
+ <form action="/instruments" method="post">
+    <p>Description:<input type="text" name="description"></p>
+    <p>Manufacturer:<input type="text" name="manufacturer"></p>
+    <p>Model Year:<input type="text" name="model_year"></p>
+    <input type="submit">
+  </form>
+  
 </center>
 
 <a href="/logout">Log Out</a>

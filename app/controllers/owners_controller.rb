@@ -8,10 +8,11 @@ class OwnersController < ApplicationController
     end
 #check to make sure username isnt already in db
     post "/owners" do
-      owner = Owner.create(params)
-      if owner.valid?
-        session[:owner_id] = owner.id
-        redirect "owners/#{owner.username}"
+      @owner = Owner.create(params)
+      # binding.pry
+      if @owner.valid?
+        session[:owner_id] = @owner.id
+        redirect "owners/#{@owner.username}"
       else
         redirect '/signup'
       end
@@ -32,10 +33,10 @@ class OwnersController < ApplicationController
     end
     
     post "/login" do
-      owner = Owner.find_by(username: params[:username])
-      if owner && owner.authenticate(params[:password])
-        session[:user_id] = owner.id
-        redirect "owners/#{owner.username}" 
+      @owner = Owner.find_by(username: params[:username])
+      if @owner && @owner.authenticate(params[:password])
+        session[:user_id] = @owner.id
+        redirect "owners/#{@owner.username}" 
       else
         redirect '/error'
       end

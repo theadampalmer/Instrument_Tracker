@@ -22,13 +22,14 @@ class InstrumentsController < ApplicationController
         redirect to '/instruments/new'
       end
     end
-      redirect_if_not_logged_in
+    redirect_if_not_logged_in
   end
-
+  
   get '/instruments/:id' do
     redirect_if_not_logged_in
     if @instrument = Instrument.find_by(params)
       erb :'instruments/show'
+      binding.pry
     else
       redirect '/instruments'
     end
