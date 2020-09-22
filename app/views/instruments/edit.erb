@@ -1,0 +1,11 @@
+<center>
+<h1>Edit Instrument?</h1>
+
+<form action="/instruments/<%=@instrument.id%>" method="post">
+  <input type="hidden" name="_method" value="patch">
+    <p>Description:<input type="text" name="instrument[description]" value="<%=@instrument.name%>"></p><br/>
+    <p>Manufacturer:<input type="text" name="instrument[manufacturer]" value="<%=@instrument.manufacturer%>"></p><br/>
+    <p>Model Year:<input type="text" name="instrument[model_year]" value="<%=@instrument.model_year%>"></p><br/>
+  <input type="submit" value="Edit Instrument">
+</form>
+</center>

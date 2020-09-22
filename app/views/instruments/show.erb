@@ -1,0 +1,19 @@
+<center>
+<h1>Your New Instrument</h1>
+
+<p><%= @instrument.description %> - <%= @instrument.manufacturer%></p>
+
+<%= if @instrument.owner == current_owner%>
+  <a href="/instruments/<%=@instrument.id%>/edit">Edit Instrument</a>
+<% end %>
+
+<br>
+
+<%= if @instrument.owner == current_owner%>
+<form action="/instruments/<%=@instrument.id%>" method="post">
+  <input type="hidden" name="_method" value="delete">
+  <input type="submit" value="Delete Instrument">
+</form>
+<% end %>
+
+</center>

@@ -1,0 +1,7 @@
+<center>
+<h2>Welcome!</h2>
+
+<% @instruments.each do |inst| %>
+    <li><a href="/instruments/<%=inst.id%>"><%= inst.description %> - <%= inst.manufacturer %></a></li>
+<% end %>
+</center>

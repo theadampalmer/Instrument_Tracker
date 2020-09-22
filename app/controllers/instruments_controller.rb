@@ -1,83 +1,66 @@
 class InstrumentsController < ApplicationController
 
   get '/instruments' do
-    if !logged_in?
-      redirect '/login'
-    else
-      @instrument = Instrument.all
-      erb :"instruments/instrument"
-    end
+      @instruments = Instrument.all
+      erb :'instruments/index'
   end
 
   get '/instruments/new' do
-    if !logged_in?
-      redirect '/login'
-    else
-      erb :"instruments/new"
-    end
-  end
-
-  get '/instruments/:id' do
     if logged_in?
-      @instrument = Instrument.find(params[:id])
-      erb :'instruments/show_instrument'
+      erb :'/instruments/new'
     else
-      redirect to '/login'
-    end
-  end
-
-  get '/instruments/:id/edit' do
-    if logged_in?
-      @instrument = Instrument.find(params[:id])
-      erb :'instruments/edit_instrument'
-    else
-      redirect "/login"
-    end
-  end
-
-  patch '/instruments/:id/edit' do
-    if logged_in?
-      @instrument = Instrument.find_by_id(params[:id])
-      if !params[:description] == " "
-        redirect to "/instruments/#{@instrument.id}/edit"
-      else
-        @instrument.description = params[:description]
-        @instrument.save
-        redirect "/instruments/#{@instrument.id}"
-      end
-    else
-      redirect '/login'
+      redirect_if_not_logged_in
     end
   end
 
   post '/instruments' do
     if logged_in?
-      if params[:description] == ""
-        redirect to 'instruments/new'
+      @instrument = current_owner.instruments.build(params)
+      if @instrument.save
+        redirect to "/instruments/#{@instrument.id}"
       else
-        @instrument = current_owner.instruments.build(description: params[:description])
-        @instrument.save
-        if @instrument.save
-          redirect to "/instruments/#{@instrument.id}"
-        else
-          redirect '/instruments/new'
-        end
+        redirect to '/instruments/new'
       end
+    end
+      redirect_if_not_logged_in
+  end
+
+  get '/instruments/:id' do
+    redirect_if_not_logged_in
+    if @instrument = Instrument.find_by(params)
+      erb :'instruments/show'
     else
-      redirect '/login'
+      redirect '/instruments'
     end
   end
 
-  delete '/instruments/:id/delete' do
-    if logged_in?
-      @instrument = Instrument.find_by_id(params[:id])
-      if @instrument.owner_id == current_owner.id
-        @instrument.delete
-        redirect to '/instruments'
-      else
-        redirect to '/login'
-      end
+  get '/instruments/:id/edit' do
+    redirect_if_not_logged_in
+    @instrument = Instrument.find_by(params)
+    if !check_owner(@instrument)
+      redirect "/instruments"
     end
+      erb :'instruments/edit'
   end
+
+  patch '/instruments/:id' do
+    redirect_if_not_logged_in
+    @instrument = Instrument.find_by(id: params[:id])
+    if check_owner(@instrument)
+      @instrument.update(params[:instrument])
+    else
+      redirect to "/instruments"
+    end
+      erb :'instruments/show'
+  end
+
+  delete '/instruments/:id' do
+    redirect_if_not_logged_in
+    @instrument = Instrument.find_by(id: params[:id])
+    if check_owner(@instrument)
+      @instrument.delete
+    end
+      redirect to '/instruments'
+    end
 
 end

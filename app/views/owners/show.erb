@@ -1,7 +1,10 @@
 <center>
-<h1>Your Instruments</h1>
+<p>Here are the instruments we're keeping track of:</p>
 
-<%@owner.instruments.each do |instrument|%>
-<a href="/instruments/#{instrument.id}"><%=instrument.description%></a><br><br>
+<% @owner.instruments.each do |inst| %>
+    
+    <a href="/instruments/<%=inst.id%>"><%=inst.description%></a>
 <%end%>
 </center>
+
+<a href="/logout">Log Out</a>
